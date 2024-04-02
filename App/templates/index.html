@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
+{% block title %}Bulls and Cows{% endblock %}
+{% block page %}Bulls and Cows{% endblock %}
 
 {{ super() }}
 
@@ -10,31 +10,13 @@
         <p> Welcome {{current_user.username}} </p>
     {% endif %}
     <p>This is a game we're gonna try</p>
-<style>
-  .container{
-    display: inline-block;
-    
-  }
-    .Square {
-     
-     
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
-        text-align: center;
-        margin: 5px;
-    }
-</style>
-<div class="row-container">
-    <form id="Square" style=>
-        <input type="text" maxlength="1" class="wordleInput" placeholder="1">
-        <input type="text" maxlength="1" class="wordleInput" placeholder="2">
-        <input type="text" maxlength="1" class="wordleInput" placeholder="3">
-        <input type="text" maxlength="1" class="wordleInput" placeholder="4">
+<div class="column" id="gamerow">
+    <form id="Square" class="row">
+      <div id="inputbox1" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
+      <div id="inputbox2" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
+      <div id="inputbox3" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
+      <div id="inputbox4" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
     </form>
 </div>
 {% endblock %}
