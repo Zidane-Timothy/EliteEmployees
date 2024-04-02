@@ -84,7 +84,7 @@ class Game(db.Model):
       'last_update': self.last_update
     }
 
-  def __init__(self, user_id, word, status, tries):
+  def __init__(self, sequence, last_update):
     self.sequence = sequence
     self.last_update = last_update
 

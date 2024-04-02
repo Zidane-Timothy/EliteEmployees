@@ -5,9 +5,36 @@
 {{ super() }}
 
 {% block content %}
-    <h1>Flask MVC</h1>
+    <h1>Bulls and Cows</h1>
     {% if is_authenticated %}
         <p> Welcome {{current_user.username}} </p>
     {% endif %}
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+    <p>This is a game we're gonna try</p>
+<style>
+  .container{
+    display: inline-block;
+    
+  }
+    .Square {
+     
+     
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        text-align: center;
+        margin: 5px;
+    }
+</style>
+<div class="row-container">
+    <form id="Square" style=>
+        <input type="text" maxlength="1" class="wordleInput" placeholder="1">
+        <input type="text" maxlength="1" class="wordleInput" placeholder="2">
+        <input type="text" maxlength="1" class="wordleInput" placeholder="3">
+        <input type="text" maxlength="1" class="wordleInput" placeholder="4">
+    </form>
+</div>
 {% endblock %}
