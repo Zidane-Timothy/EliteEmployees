@@ -1,22 +1,86 @@
-{% extends "layout.html" %}
-{% block title %}Bulls and Cows{% endblock %}
-{% block page %}Bulls and Cows{% endblock %}
+{% extends "layout.html" %} {% block title %}Bulls and Cows{% endblock %} {%
+block page %}Bulls and Cows{% endblock %} {{ super() }} {% block content %}
+<h1>Bulls and Cows</h1>
+{% if is_authenticated %}
+<p>Welcome {{current_user.username}}</p>
+{% endif %}
+<p>This is a game we're gonna try</p>
 
-{{ super() }}
+<!-- <div class="container" style="align-items: center justify-content: centertranslate(-50%, -50%)" data-closable="slide-out-right">
+  <div class="card">
+    
+    <button class="close-button right" aria-label="Close alert" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4>Testing a welcome</h4>
+    <p>lorem</p>
+    <button>I will be the play button</button>
+  </div>
+</div>;  -->
 
-{% block content %}
-    <h1>Bulls and Cows</h1>
-    {% if is_authenticated %}
-        <p> Welcome {{current_user.username}} </p>
-    {% endif %}
-    <p>This is a game we're gonna try</p>
+<!-- <div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Welcome</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Instructions</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis eaque eligendi laboriosam commodi natus libero fugiat corporis voluptatem autem sequi dicta, ipsum in soluta, ratione facere excepturi accusamus temporibus? Illum!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary left">Play</button>
+        <button type="button" class="btn btn-secondary right" data-dismiss="modal">Sign Up and Play</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
 
 <div class="column" id="gamerow">
-    <form id="Square" class="row">
-      <div id="inputbox1" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
-      <div id="inputbox2" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
-      <div id="inputbox3" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
-      <div id="inputbox4" class="column" style="display: inline-block"><input type="text" maxlength="1" class="wordleInput" placeholder="?"></div>
-    </form>
+  <form id="Square" class="row" method="POST">
+    <div id="inputbox1" class="column" style="display: inline-block">
+      <input
+        type="text"
+        maxlength="1"
+        class="input"
+        placeholder="?"
+        style="text-align: center"
+      />
+    </div>
+    <div id="inputbox2" class="column" style="display: inline-block">
+      <input
+        type="text"
+        maxlength="1"
+        class="input"
+        placeholder="?"
+        style="text-align: center"
+      />
+    </div>
+    <div id="inputbox3" class="column" style="display: inline-block">
+      <input
+        type="text"
+        maxlength="1"
+        class="wordleInput"
+        placeholder="?"
+        style="text-align: center"
+      />
+    </div>
+    <div id="inputbox4" class="column" style="display: inline-block">
+      <input
+        type="text"
+        maxlength="1"
+        class="wordleInput"
+        placeholder="?"
+        style="text-align: center"
+      />
+    </div>
+  </form>
 </div>
+
+<!--implement javascript for modal-->
+
 {% endblock %}
