@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies
+from sqlalchemy.exc import IntegrityError
 
 from.index import index_views
-
+from App.models import User
 from App.controllers import (
     login
 )
@@ -22,19 +23,20 @@ def get_user_page():
 @jwt_required()
 def identify_page():
     return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}")
-    
 
-@auth_views.route('/login', methods=['POST'])
-def login_action():
-    data = request.form
-    token = login(data['username'], data['password'])
-    response = redirect(request.referrer)
-    if not token:
-        flash('Bad username or password given'), 401
-    else:
-        flash('Login Successful')
-        set_access_cookies(response, token) 
-    return response
+@auth_views.route('/login', methods=['GET', 'POST'])
+def login_view():
+    if request.method == 'POST':
+        data = request.form
+        token = login(data['username'], data['password'])
+        if token:
+            flash('Login Successful')
+            response = redirect(url_for('index_views.index_page'))
+            set_access_cookies(response, token)
+            return response
+        else:
+            flash('Bad username or password given', 'error')
+    return render_template('login.html')
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
@@ -42,6 +44,23 @@ def logout_action():
     flash("Logged Out!")
     unset_jwt_cookies(response)
     return response
+
+@auth_views.route('/signup', methods=['GET', 'POST'])
+def signup_user_view():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        try:
+            new_user = User(username=username, password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f"User {username} created!")
+            return redirect(url_for('auth_views.login_view'))
+        except IntegrityError:
+            db.session.rollback()
+            flash('Username already exists', 'error')
+            return redirect(url_for('auth_views.signup_user_view'))
+    return render_template('signup.html')
 
 '''
 API Routes

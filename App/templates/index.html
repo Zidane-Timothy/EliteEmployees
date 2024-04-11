@@ -1,61 +1,78 @@
-{% extends "layout.html" %} {% block title %}Bulls and Cows{% endblock %} {%
-block page %}Bulls and Cows{% endblock %} {{ super() }} {% block content %}
+{% extends "layout.html" %}
+{% block title %}Bulls and Cows{% endblock %}
+{% block page %}Bulls and Cows{% endblock %}
+{{ super() }}
+
+{% block content %}
 <h1>Bulls and Cows</h1>
-{% if is_authenticated %}
-<p>Welcome {{current_user.username}}</p>
-{% endif %}
-<p>This is a game we're gonna try</p>
+<style>
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 
-<div class="container" style="align-items: center justify-content: centertranslate(-50%, -50%)" data-closable="slide-out-right">
-  <div class="card">
-    
-    <button class="close-button right" aria-label="Close alert" type="button" data-close>
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <h4>Testing a welcome</h4>
-    <p>lorem</p>
-    <button>I will be the play button</button>
-  </div>
-</div>; 
+  .Square {
+    width: 90px;
+    height: 90px;
+    border: 0.5px solid black;
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+  }
 
+</style>
+
+{% for row in past_rows %}
 <div class="column" id="gamerow">
   <form id="Square" class="row" method="POST">
-    <div id="inputbox1" class="column" style="display: inline-block">
-      <input
-        type="text"
-        maxlength="1"
-        class="input"
-        placeholder="?"
-        style="text-align: center"
-      />
-    </div>
-    <div id="inputbox2" class="column" style="display: inline-block">
-      <input
-        type="text"
-        maxlength="1"
-        class="input"
-        placeholder="?"
-        style="text-align: center"
-      />
-    </div>
-    <div id="inputbox3" class="column" style="display: inline-block">
-      <input
-        type="text"
-        maxlength="1"
-        class="wordleInput"
-        placeholder="?"
-        style="text-align: center"
-      />
-    </div>
-    <div id="inputbox4" class="column" style="display: inline-block">
-      <input
-        type="text"
-        maxlength="1"
-        class="wordleInput"
-        placeholder="?"
-        style="text-align: center"
-      />
-    </div>
-  </form>
-</div>
+    <div class="flex-container">
+      <div id="inputbox1" class="column Square {{row[0]}}">
+              <input
+                type="number"
+                name="guess1"
+                min="0"
+                max="9"
+                class="input"
+                placeholder="?"
+              />
+            </div>
+            <div id="inputbox2" class="column Square {{row[1]}}">
+              <input
+                type="number"
+                name="guess2"
+                min="0"
+                max="9"
+                class="input"
+                placeholder="?"
+              />
+            </div>
+            <div id="inputbox3" class="column Square {{row[2]}}">
+              <input
+                type="number"
+                name="guess3"
+                min="0"
+                max="9"
+                class="input"
+                placeholder="?"
+              />
+            </div>
+            <div id="inputbox4" class="column Square {{row[3]}}">
+              <input
+                type="number"
+                name="guess4"
+                min="0"
+                max="9"
+                class="input"
+                placeholder="?"
+              />
+            </div>
+          </div>
+          <input type="submit" class="green text-white btn" value="Play">
+        </form>
+      </div>
+{% endfor %}
+
+
 {% endblock %}

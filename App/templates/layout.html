@@ -1,60 +1,178 @@
 <!doctype html>
-<html>
-  <head>
-  
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{% block title %}{% endblock %}</title>
+      <html>
+      <head>
 
-  </head>
-  <body>
-    
-      <nav class="cyan">
-          <div class="nav-wrapper">
-              <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
-              <ul id="nav-mobile" class="left">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/users">Users Jinja</a></li>
-                  {% if is_authenticated %}
-                    <li><a href="/identify">Identify</a></li>
+          <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+          <!--Import Google Icon Font-->
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+          <!-- Compiled and minified CSS -->
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+          <!--Let browser know website is optimized for mobile-->
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+          <title>{% block title %}Bulls and Cows{% endblock %}</title>
+
+          <style>
+              .popup {
+                  position: fixed; /* Change to fixed for centering */
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  display: none; /* Hide by default */
+                  z-index: 9999;
+              }
+
+              .popup .popuptext {
+                  width: 400px;
+                  height: 350px;
+                  background-color: #555;
+                  color: #fff;
+                  text-align: center;
+                  border-radius: 6px;
+                  padding: 8px 0;
+                  position: relative;
+              }
+
+              .popup .close {
+                  position: absolute;
+                  top: -10px;
+                  right: -10px;
+                  cursor: pointer;
+                  background-color: #555;
+                  color: #fff;
+                  width: 20px;
+                  height: 20px;
+                  border-radius: 50%;
+                  line-height: 20px;
+                  text-align: center;
+              }
+            .streak {
+                position: fixed; /* Change to fixed for centering */
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: none; /* Hide by default */
+                z-index: 9999;
+            }
+
+            .streak .popuptext {
+                width: 350px;
+                height: 200px;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 8px 0;
+                position: relative;
+            }
+
+            .streak .close {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                cursor: pointer;
+                background-color: #555;
+                color: #fff;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                line-height: 20px;
+                text-align: center;
+            }
+          </style>
+
+      </head>
+      <body>
+
+        <nav class="cyan">
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo center">{% block page %}Bulls and Cows{% endblock %}</a>
+
+                <!-- Left-side navigation links -->
+                <ul class="left">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#" onclick="myFunction()">Instructions</a></li>
+                    <li><a href="#" onclick="showStreak()">Streak</a></li>
+                </ul>
+
+                <!-- Right-side navigation links -->
+                <ul class="right">
+                  {% if not is_authenticated %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/signup">Sign Up</a></li>
                   {% endif %}
-                  <li><a href="/static/users">Users JS</a></li>
-              </ul>
-              {% if is_authenticated %}
-              <ul id="nav-mobile" class="right">
-                <li><a href="/logout">Logout</a></li>
-              </ul>
-              {% else %}
-              <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
-                  <div class="input-field" style="margin-right: 10px;">
-                      <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
-                      <label for="username">username</label>
-                  </div>
-                  <div class="input-field" style="margin-right: 10px;">
-                      <input placeholder="password"value="bobpass" name="password" type="password" class="validate" required>
-                      <label for="password">Password</label>
-                  </div>
-                  <button type="submit" class="btn waves-effect waves-light">Login</button>
-              </form>
-              {% endif %}
-              
+                    {% if is_authenticated %}
+                    <li><a href="/logout">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+
+      <div class="popup" id="popup">
+          <div class="popuptext" id="myPopup">
+            <p>How to play?</p>
+            <p>You must guess a four digit number </p>
+            <p>If a brick is yellow. The digit is in the number but in an incorrect position.</p>
+            <p>If the brick is green. The digit is in the number and in a correct position.</p>
+            <p>If the brick is black. The digit is not in the number.</p>
+            {% if not is_authenticated %}
+            <p>You have 6 guesses. Login or Sign Up to keep your streak</p>
+            <div>
+            <a href="/signup" class="green text-white btn">Sign up</a>
+            <a href="/login" class="green text-white btn">Log in</a>
+            {% else %}
+            <p>You have 6 guesses.</p>
+            {% endif %}
+            </div>
+              <span class="close" onclick="closePopup()">x</span> <!-- Close button -->
           </div>
-      </nav>
-      <style>
-          .navbar-form label {
-              color: white !important;
+      </div>
+
+        <div class="popup" id="streak">
+            <div class="popuptext" id="myPopupStreak">
+              {% if is_authenticated %}
+              <p>Longest streak: {{current_user.streak}}</p>
+              <p>Total games played: {{current_user.games_played}}</p>
+              <p>Total games won: {{current_user.games_won}}</p>
+              {% else %}
+              <p>Please log in/sign up to see your stats</p>
+              <div>
+              <a href="/signup" class="green text-white btn">Sign up</a>
+              <a href="/login" class="green text-white btn">Log in</a>
+              {% endif %}
+              </div>
+                <span class="close" onclick="closeStreak()">x</span> <!-- Close button -->
+            </div>
+        </div>
+
+      <script>
+          // When the user clicks on <div>, open the popup
+          function myFunction() {
+              var popup = document.getElementById("popup");
+              popup.style.display = "block";
           }
-      </style>
 
-    <div class="container" id="content">{% block content %}{% endblock %}</div>
+          // Close the popup
+          function closePopup() {
+              var popup = document.getElementById("popup");
+              popup.style.display = "none";
+          }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
+        function showStreak(){
+          var popup = document.getElementById("streak");
+          popup.style.display = "block";
+        }
+
+        function closeStreak(){
+          var popup = document.getElementById("streak");
+          popup.style.display = "none";
+        }
+      </script>
+
+      <div class="container" id="content">{% block content %}{% endblock %}</div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <script>
        M.AutoInit();
 
         {% with messages = get_flashed_messages() %}

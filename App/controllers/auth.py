@@ -8,6 +8,15 @@ def login(username, password):
     return create_access_token(identity=username)
   return None
 
+def signup(username, password):
+  user = User.query.filter_by(username=username).first()
+  if user:
+    return False
+  new_user = User(username, password)
+  db.session.add(new_user)
+  db.session.commit()
+  return True
+
 
 def setup_jwt(app):
   jwt = JWTManager(app)

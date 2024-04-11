@@ -1,4 +1,14 @@
 import os
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    'generate-sequence-daily': {
+        'task': 'tasks.generate_sequence_daily',
+        'schedule': crontab(minute=0, hour=0),  # Run daily at midnight
+    },
+}
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 def load_config(app, overrides):
     if os.path.exists(os.path.join('./App', 'custom_config.py')):

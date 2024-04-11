@@ -28,15 +28,24 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
+    streak = db.Column(db.Integer, default=0, nullable=False)
+    games_won = db.Column(db.Integer, default=0, nullable=False)
+    games_played = db.Column(db.Integer, default=0, nullable=False)
 
     def __init__(self, username, password):
         self.username = username
         self.set_password(password)
+        self.streak = 0
+        self.high_score = 0
+        self.games_played = 0
 
     def get_json(self):
         return{
             'id': self.id,
-            'username': self.username
+            'username': self.username,
+            'streak': self.streak,
+            'games_won': self.high_score,
+            'games_played': self.games_played
         }
 
     def set_password(self, password):
@@ -46,6 +55,15 @@ class User(db.Model):
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
+
+    def add_streak(self):
+        self.streak += 1
+
+    def add_games_won(self):
+        self.games_won += 1
+
+    def add_game_played(self):
+        self.games_played += 1
 
     def new_game(self, game_id):
         game = UserGame.q.filter_by(user_id=self.id, game_id=game_id).first()
@@ -73,7 +91,7 @@ class UserGame(db.Model):
 
 class Game(db.Model):
   id = db.Column(db.Integer, primary_key = True)
-  sequence = db.Column(db.String, nullable = False)
+  sequence = db.Column(db.String(4), nullable = False)
   last_update = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
   
 
@@ -88,3 +106,85 @@ class Game(db.Model):
     self.sequence = sequence
     self.last_update = last_update
 
+  def generate_sequence():
+    sequence = ''
+    for i in range(4):
+      sequence += str(random.randint(0,9))
+    return sequence
+
+# #To Check
+# from werkzeug.security import check_password_hash, generate_password_hash
+# from App.database import db
+
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username =  db.Column(db.String, nullable=False, unique=True)
+#     email = db.Column(db.String, nullable=False, unique=True)
+#     password = db.Column(db.String(120), nullable=False)
+#     new_game = db.Column(db.Boolean, default=False)
+#     end_game = db.Column(db.Boolean, default=False)
+#     clear_data = db.Column(db.Boolean, default=False)
+#     view_history = db.Column(db.Boolean, default=False)
+
+#     def __init__(self, username, email, password):
+#       self.username = username
+#       self.email = email
+#       self.password = generate_password_hash(password)
+
+#     def get_json(self):
+#         return{
+#             "id": self.id,
+#             "username": self.username,
+#             "email": self.email
+#         }
+
+#     def set_password(self, password):
+#         """Create hashed password."""
+#         self.password = generate_password_hash(password)
+
+#     def check_password(self, password):
+#         """Check hashed password."""
+#         return check_password_hash(self.password, password)
+
+# class UserGame(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+#     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
+#     tries = db.Column(db.Integer, nullable=False)
+#     status = db.Column(db.Boolean, nullable=False)
+
+#     def __init__(self, user_id, game_id, tries, status):
+#         self.user_id = user_id
+#         self.game_id = game_id
+#         self.tries = tries
+#         self.status = status
+
+# class Game(db.Model):
+#     game_id = db.Column(db.Integer, primary_key=True)
+#     sequence_no = db.Column(db.Integer, nullable=False)
+#     last_update = db.Column(db.DateTime, nullable=False)
+#     num_games = db.Column(db.Integer, nullable=False)
+
+#     def __init__(self, sequence_no, last_update):
+#         self.sequence_no = sequence_no
+#         self.game_id = game_id
+#         self.last_update = last_update
+
+#     def num_games(self, game_id):
+#         """Create hashed password."""
+#         return self.num_games
+
+# class GameHistory(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+#     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
+#     longest_streak = db.Column(db.Integer, nullable=False)
+#     games_played = db.Column(db.Integer, nullable=False)
+#     games_won = db.Column(db.Integer, nullable=False)
+
+#     def __init__(self, user_id, game_id, longest_streak, games_played, games_won):
+#         self.user_id = user_id
+#         self.game_id = game_id
+#         self.longest_streak = longest_streak
+#         self.games_played = games_played
+#         self.games_won = games_won

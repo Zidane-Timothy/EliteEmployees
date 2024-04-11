@@ -1,4 +1,8 @@
 from App.models import User
+from App.models import Game
+from App.models import UserGame
+from App.models import GameHistory
+from App.models import db
 from App.database import db
 
 def create_user(username, password):
@@ -30,4 +34,8 @@ def update_user(id, username):
         db.session.add(user)
         return db.session.commit()
     return None
+
+def get_user_game(user_id):
+  user = get_user(user_id)
+    
     
