@@ -14,7 +14,7 @@ auth_views = Blueprint('auth_views', __name__, template_folder='../templates')
 '''
 Page/Action Routes
 '''    
-@auth_views.route('/users', methods=['GET'])
+@auth_views.route('/users', methods=['GET']) #works
 def get_user_page():
     users = get_all_users()
     return render_template('users.html', users=users)
@@ -24,7 +24,7 @@ def get_user_page():
 def identify_page():
     return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}")
 
-@auth_views.route('/login', methods=['GET', 'POST'])
+@auth_views.route('/login', methods=['GET', 'POST']) #works
 def login_view():
     if request.method == 'POST':
         data = request.form
@@ -38,14 +38,14 @@ def login_view():
             flash('Bad username or password given', 'error')
     return render_template('login.html')
 
-@auth_views.route('/logout', methods=['GET'])
+@auth_views.route('/logout', methods=['GET']) #works
 def logout_action():
     response = redirect(request.referrer) 
     flash("Logged Out!")
     unset_jwt_cookies(response)
     return response
 
-@auth_views.route('/signup', methods=['GET', 'POST'])
+@auth_views.route('/signup', methods=['GET', 'POST']) #no work
 def signup_user_view():
     if request.method == 'POST':
         username = request.form.get('username')

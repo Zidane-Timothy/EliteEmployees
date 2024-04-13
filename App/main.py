@@ -29,7 +29,7 @@ def create_app(overrides={}):
   configure_uploads(app, photos)
   add_views(app)
   init_db(app)
-  celery = Celery(
+  celery = Celery( #celery to test an evaluate when everything is sorted
       app.import_name,
       backend=app.config['CELERY_RESULT_BACKEND'],
       broker=app.config['CELERY_BROKER_URL']

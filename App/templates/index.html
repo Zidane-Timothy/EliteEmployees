@@ -24,8 +24,8 @@
 
 </style>
 
-{% for row in past_rows %}
-<div class="column" id="gamerow">
+{% for row in past_rows %} <!--This code needs tweaking to generate accurate row numbers-->
+<div class="column" id="gamerow{{ loop.index }}">
   <form id="Square" class="row" method="POST">
     <div class="flex-container">
       <div id="inputbox1" class="column Square {{row[0]}}">

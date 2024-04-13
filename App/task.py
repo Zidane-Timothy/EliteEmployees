@@ -4,6 +4,6 @@ from .models import User
 
 @celery.task
 def generate_sequence_daily():
-    users = User.query.all()
-    for user in users:
-        user.generate_sequence()
+    games = Games.query.all()
+    for game in gamess:
+        game.generate_sequence()

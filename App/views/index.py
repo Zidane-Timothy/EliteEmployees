@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
+from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify, session
 from App.models import db
 from App.controllers import create_user, update_user, get_all_users, get_all_users_json, get_user_by_username, get_user
 
@@ -18,11 +18,12 @@ def check_guess(secret_number, guess):
 
 @index_views.route('/', methods=['GET','POST'])
 def index_page():
-    past_rows = ["grey","grey","grey","grey"]  # List to store past guesses and their results
+    # Get past_rows from the session, or initialize it if it doesn't exist
+    past_rows = session.get('past_rows', [])
 
     if request.method == 'POST':
       secret_number = "1234"  # Replace with your actual secret number
-      guesses_remaining = 6
+      guesses_remaining = 6 #How many guesses are we using?
 
       # Obtain the user's guess from the form inputs
       guess1 = request.form.get('guess1')
@@ -36,7 +37,10 @@ def index_page():
       guesses_remaining -= 1
 
       # Append the current guess and its result to the list of past rows
-      past_rows.append(result)
+      past_rows.append({"guess": guess, "result": result})
+
+      # Save past_rows back to the session
+      session['past_rows'] = past_rows
 
       # Check if the player has won
       if result == ["green", "green", "green", "green"]:
@@ -56,9 +60,7 @@ def index_page():
 
     return render_template('index.html', past_rows=past_rows)
 
-
-
-@index_views.route('/init', methods=['GET'])
+@index_views.route('/init', methods=['GET']) #works
 def init():
     db.drop_all()
     db.create_all()
@@ -68,5 +70,3 @@ def init():
 @index_views.route('/health', methods=['GET'])
 def health_check():
     return jsonify({'status':'healthy'})
-
-

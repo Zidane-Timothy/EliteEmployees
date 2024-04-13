@@ -2,7 +2,7 @@ from App.models import User
 from App.models import Game
 from App.models import UserGame
 from App.models import GameHistory
-from App.models import db
+#from App.models import db
 from App.database import db
 
 def create_user(username, password):
