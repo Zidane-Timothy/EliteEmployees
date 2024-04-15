@@ -113,7 +113,7 @@ class Game(db.Model):
     return sequence
   
   # def generate_unique_sequence():
-  #     digits = list(range(10))  # Create a list of digits from 0 to 9
-  #     random.shuffle(digits)    # Shuffle the list randomly
-  #     unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
-  #     return unique_sequence
+  #   digits = list(range(10))  # Create a list of digits from 0 to 9
+  #   random.shuffle(digits)    # Shuffle the list randomly
+  #   unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
+  #   return unique_sequence
