@@ -105,15 +105,15 @@ class Game(db.Model):
   def __init__(self, sequence, last_update):
     self.sequence = sequence
     self.last_update = last_update
-
-  def generate_sequence():
-    sequence = ''
-    for i in range(4):
-      sequence += str(random.randint(0,9))
-    return sequence
   
-  # def generate_unique_sequence():
-  #   digits = list(range(10))  # Create a list of digits from 0 to 9
-  #   random.shuffle(digits)    # Shuffle the list randomly
-  #   unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
-  #   return unique_sequence
+  def generate_sequence():
+    digits = list(range(10))  # Create a list of digits from 0 to 9
+    random.shuffle(digits)    # Shuffle the list randomly
+    unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
+    return unique_sequence
+
+  # def generate_sequence():
+  #   sequence = ''
+  #   for i in range(4):
+  #     sequence += str(random.randint(0,9))
+  #   return sequence

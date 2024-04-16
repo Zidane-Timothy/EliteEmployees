@@ -130,21 +130,48 @@
 
         <div class="popup" id="streak">
             <div class="popuptext" id="myPopupStreak">
-              {% if is_authenticated %}
-              <p>Longest streak: {{current_user.streak}}</p>
-              <p>Total games played: {{current_user.games_played}}</p>
-              <p>Total games won: {{current_user.games_won}}</p>
-              {% else %}
-              <p>Please log in/sign up to see your stats</p>
-              <div>
-              <a href="/signup" class="green text-white btn">Sign up</a>
-              <a href="/login" class="green text-white btn">Log in</a>
-              {% endif %}
-              </div>
+                {% if is_authenticated %}
+                <h2>Leaderboard 🏆</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>RANK</th>
+                            <th>NAME</th>
+                            <th>STREAK</th>
+                            <th>GAMES PLAYED</th>
+                            <th>GAMES WON</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in leaderboard_users %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ current_user.name }}</td>
+                            <td>{{ current_user.streak }}</td>
+                            <td>{{ current_user.games_played }}</td>
+                            <td>{{ current_user.games_won }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <!--Need to fix after game functionality is working-->
+                            <td>{{ current_user_rank }}</td>
+                            <td>{{ current_user.name }}</td>
+                            <td>{{ current_user_star }}</td>
+                            <td>{{ current_user_level }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Please log in/sign up to see your stats</p>
+                <div>
+                    <a href="/signup" class="green text-white btn">Sign up</a>
+                    <a href="/login" class="green text-white btn">Log in</a>
+                </div>
+                {% endif %}
                 <span class="close" onclick="closeStreak()">x</span> <!-- Close button -->
             </div>
         </div>
-
+        
       <script>
           // When the user clicks on <div>, open the popup
           function myFunction() {
