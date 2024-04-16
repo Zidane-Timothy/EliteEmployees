@@ -108,15 +108,15 @@
         </nav>
 
 
-      <div class="popup" id="popup">
+        <div class="popup" id="popup">
           <div class="popuptext" id="myPopup">
-            <p>How to play?</p>
+            <h2>How to play?</h2>
             <p>You must guess a four digit number </p>
-            <p>If a brick is yellow. The digit is in the number but in an incorrect position.</p>
-            <p>If the brick is green. The digit is in the number and in a correct position.</p>
-            <p>If the brick is black. The digit is not in the number.</p>
+            <p>Bulls = correct digit, correct position</p>
+            <p>Cows = correct code, wrong position</p>
             {% if not is_authenticated %}
-            <p>You have 6 guesses. Login or Sign Up to keep your streak</p>
+            <p>You have 6 guesses</p>
+            <p>Login or Sign Up to keep your streak</p>
             <div>
             <a href="/signup" class="green text-white btn">Sign up</a>
             <a href="/login" class="green text-white btn">Log in</a>
@@ -126,7 +126,8 @@
             </div>
               <span class="close" onclick="closePopup()">x</span> <!-- Close button -->
           </div>
-      </div>
+        </div>
+
 
         <div class="popup" id="streak">
             <div class="popuptext" id="myPopupStreak">
