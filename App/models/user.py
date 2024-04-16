@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy.sql.expression import func
 from App.database import db
 
-#db = SQLAlchemy()
+# db = SQLAlchemy()
 
 class GameHistory(db.Model):
     __tablename__ = 'game_history'
