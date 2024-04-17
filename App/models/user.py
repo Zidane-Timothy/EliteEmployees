@@ -96,7 +96,7 @@ class UserGame(db.Model):
     self.status = status
 
 class Game(db.Model):
-<<<<<<< HEAD
+
   id = db.Column(db.Integer, primary_key=True)
   sequence = db.Column(db.String(4), nullable=False)
   last_update = db.Column(db.Date, nullable=False, default=datetime.utcnow().date())  # Changed to store only date
@@ -127,38 +127,4 @@ class Game(db.Model):
           sequence.add(random.randint(0, 9))
       sequence_str = ''.join(str(digit) for digit in sequence)
       return sequence_str.zfill(4)  # Ensure the sequence has 4 digits
-  # def generate_unique_sequence():
-  #   digits = list(range(10))  # Create a list of digits from 0 to 9
-  #   random.shuffle(digits)    # Shuffle the list randomly
-  #   unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
-  #   return unique_sequence
 
-=======
-  id = db.Column(db.Integer, primary_key = True)
-  sequence = db.Column(db.String(4), nullable = False)
-  last_update = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
-  
-
-  def get_json(self):
-    return {
-      'id': self.id,
-      'sequence': self.sequence,
-      'last_update': self.last_update
-    }
-
-  def __init__(self, sequence, last_update):
-    self.sequence = sequence
-    self.last_update = last_update
-  
-  def generate_sequence():
-    digits = list(range(10))  # Create a list of digits from 0 to 9
-    random.shuffle(digits)    # Shuffle the list randomly
-    unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
-    return unique_sequence
-
-  # def generate_sequence():
-  #   sequence = ''
-  #   for i in range(4):
-  #     sequence += str(random.randint(0,9))
-  #   return sequence
->>>>>>> 876c325ebb1548ca7cdc1e108ec99907c8318679
