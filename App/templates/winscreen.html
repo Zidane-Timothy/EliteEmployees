@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Bulls and Cows{% endblock %}
+{% block page %}Bulls and Cows{% endblock %}
+{{ super() }}
+
+{% block content %}
+<h1 class="center">✨YOU WON✨</h1>
+<style>
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .Square {
+    width: 90px;
+    height: 90px;
+    border: 0.5px solid black;
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+  }
+
+</style>
+
+<!--This code needs tweaking to generate accurate row numbers-->
+
+    <form id="Square" class="row" method="POST">
+      <div class="flex-container">
+        <div class="column Square green">
+          {{guess1}}
+        </div>
+        <div  class="column Square green">
+          {{guess2}}
+        </div>
+        <div class="column Square green">
+          {{guess3}}
+        </div>
+        <div class="column Square green">
+          {{guess4}}
+        </div>
+      </div>
+            <a href="/" class="text-white btn green" value="Home">Home</a>
+    </form>
+  
+
+{% endblock %}

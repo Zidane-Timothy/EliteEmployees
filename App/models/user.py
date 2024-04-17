@@ -95,6 +95,11 @@ class UserGame(db.Model):
     self.tries = tries
     self.status = status
 
+#   def get_tries():
+#     self.user_id = user_id
+#     self.tries = tries
+#     self.status = status
+
 class Game(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)

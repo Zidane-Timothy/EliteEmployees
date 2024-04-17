@@ -46,7 +46,7 @@ def logout_action():
     unset_jwt_cookies(response)
     return response
 
-@auth_views.route('/signup', methods=['GET', 'POST']) #no work
+@auth_views.route('/signup', methods=['GET', 'POST']) #works
 def signup_user_view():
     if request.method == 'POST':
         username = request.form.get('username')
