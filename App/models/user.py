@@ -1,15 +1,13 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
-<<<<<<< HEAD
 from sqlalchemy.sql.expression import func
 from App.database import db
 from datetime import datetime, time, timedelta
 import random
-=======
 from datetime import datetime
 from sqlalchemy.sql.expression import func
 from App.database import db
->>>>>>> 876c325ebb1548ca7cdc1e108ec99907c8318679
+
 
 
 # db = SQLAlchemy()
