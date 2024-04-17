@@ -3,13 +3,10 @@
 {% block page %}Bulls and Cows{% endblock %}
 {{ super() }}
 
-{% block content %}
-<h1>Bulls and Cows</h1>
-<style>
-  .flex-container {
+{% block Styles %}
+
+.flex-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100%;
   }
 
@@ -18,61 +15,42 @@
     height: 90px;
     border: 0.5px solid black;
     text-align: center;
-    line-height: 50px;
     font-size: 30px;
   }
 
-</style>
+{% endblock %}
 
-{% for row in past_rows %} <!--This code needs tweaking to generate accurate row numbers-->
-<div class="column" id="gamerow{{ loop.index }}">
-  <form id="Square" class="row" method="POST">
-    <div class="flex-container">
-      <div id="inputbox1" class="column Square {{row[0]}}">
-              <input
-                type="number"
-                name="guess1"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
+
+{% block content %}
+
+<h1>Bulls and Cows</h1>
+  
+  {% if past_rows %}
+    {% for row in past_rows %}
+      <div class="column" id="gamerow">
+        <form id="Square" class="row" method="POST">
+          <div class="flex-container" style="flex-direction: row;">
+            <div id="inputbox1" class="column Square {{row[0]}}">
+              <input type="number" name="guess1" min="0" max="9" class="input" placeholder="?"/>
             </div>
             <div id="inputbox2" class="column Square {{row[1]}}">
-              <input
-                type="number"
-                name="guess2"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
+              <input type="number" name="guess2" min="0" max="9" class="input" placeholder="?"/>
             </div>
             <div id="inputbox3" class="column Square {{row[2]}}">
-              <input
-                type="number"
-                name="guess3"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
+              <input type="number" name="guess3" min="0" max="9" class="input" placeholder="?"/>
             </div>
             <div id="inputbox4" class="column Square {{row[3]}}">
-              <input
-                type="number"
-                name="guess4"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
+              <input type="number" name="guess4" min="0" max="9" class="input" placeholder="?"/>
             </div>
           </div>
           <input type="submit" class="green text-white btn" value="Play">
         </form>
       </div>
-{% endfor %}
-
+      test
+    {% endfor %}
+  {% else %}
+     hello
+  {% endif %}
+</main>
 
 {% endblock %}
