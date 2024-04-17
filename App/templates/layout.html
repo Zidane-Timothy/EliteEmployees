@@ -89,9 +89,8 @@
 
                 <!-- Left-side navigation links -->
                 <ul class="left">
-                    <li><a href="/">Home</a></li>
                     <li><a href="#" onclick="myFunction()">Instructions</a></li>
-                    <li><a href="#" onclick="showStreak()">Streak</a></li>
+                    <li><a href="#" onclick="showStreak()">Leaderboard</a></li>
                 </ul>
 
                 <!-- Right-side navigation links -->
@@ -113,9 +112,9 @@
             <h2>How to play?</h2>
             <p>You must guess a four digit number </p>
             <p>Bulls = correct digit, correct position</p>
-            <p>Cows = correct code, wrong position</p>
+            <p>Cows = correct digit, wrong position</p>
             {% if not is_authenticated %}
-            <p>You have 6 guesses</p>
+            <p>You have 6 guesses. Good luck!</p>
             <p>Login or Sign Up to keep your streak</p>
             <div>
             <a href="/signup" class="green text-white btn">Sign up</a>
