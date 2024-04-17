@@ -17,9 +17,11 @@ Page/Action Routes
 '''    
 @auth_views.route('/users', methods=['GET']) #works
 def get_user_page():
+    if 'username' not in session:
+        return redirect(url_for('auth_views.login_view'))
     users = get_all_users()
     return render_template('users.html', users=users)
-
+    
 @auth_views.route('/identify', methods=['GET'])
 @jwt_required()
 def identify_page():
@@ -46,7 +48,7 @@ def logout_action():
     unset_jwt_cookies(response)
     return response
 
-@auth_views.route('/signup', methods=['GET', 'POST']) #no work
+@auth_views.route('/signup', methods=['GET', 'POST'])
 def signup_user_view():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -56,12 +58,17 @@ def signup_user_view():
             db.session.add(new_user)
             db.session.commit()
             flash(f"User {username} created!")
-            return redirect(url_for('auth_views.login_view'))
+            # Log in the user and set access cookies
+            token = login(username, password)
+            response = redirect(url_for('index_views.index_page'))
+            set_access_cookies(response, token)
+            return response
         except IntegrityError:
             db.session.rollback()
             flash('Username already exists', 'error')
             return redirect(url_for('auth_views.signup_user_view'))
     return render_template('signup.html')
+
 
 '''
 API Routes

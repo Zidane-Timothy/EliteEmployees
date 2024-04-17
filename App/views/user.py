@@ -22,6 +22,9 @@ def create_user_action():
     data = request.form
     flash(f"User {data['username']} created!")
     create_user(data['username'], data['password'])
+    session['username'] = data['username']  # Set the session
+    session.permanent = True  # Make the session persist
+    session.modified = True  # Update the session
     return redirect(url_for('user_views.get_user_page'))
 
 @user_views.route('/api/users', methods=['GET'])
