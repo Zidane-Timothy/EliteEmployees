@@ -4,7 +4,7 @@
 {{ super() }}
 
 {% block content %}
-<h1>Bulls and Cows</h1>
+<h1>Lets play Bulls and Cows !!!</h1>
 <style>
   .flex-container {
     display: flex;
@@ -22,57 +22,83 @@
     font-size: 30px;
   }
 
+  /* Add styling for the Bulls and Cows table */
+  #bulls-cows-table {
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+
+  #bulls-cows-table th,
+  #bulls-cows-table td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
 </style>
 
-{% for row in past_rows %} <!--This code needs tweaking to generate accurate row numbers-->
-<div class="column" id="gamerow{{ loop.index }}">
-  <form id="Square" class="row" method="POST">
-    <div class="flex-container">
-      <div id="inputbox1" class="column Square {{row[0]}}">
-              <input
-                type="number"
-                name="guess1"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
-            </div>
-            <div id="inputbox2" class="column Square {{row[1]}}">
-              <input
-                type="number"
-                name="guess2"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
-            </div>
-            <div id="inputbox3" class="column Square {{row[2]}}">
-              <input
-                type="number"
-                name="guess3"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
-            </div>
-            <div id="inputbox4" class="column Square {{row[3]}}">
-              <input
-                type="number"
-                name="guess4"
-                min="0"
-                max="9"
-                class="input"
-                placeholder="?"
-              />
-            </div>
-          </div>
-          <input type="submit" class="green text-white btn" value="Play">
-        </form>
+<div id="gamerows">
+  <div class="column" id="gamerow1">
+    <form id="Square" class="row" method="POST">
+      <div class="flex-container">
+        <div id="inputbox1" class="column Square {{past_rows[0][0]}}">
+          <input type="number" name="guess1" min="0" max="9" class="input" placeholder="?" />
+        </div>
+        <div id="inputbox2" class="column Square {{past_rows[0][1]}}">
+          <input type="number" name="guess2" min="0" max="9" class="input" placeholder="?" />
+        </div>
+        <div id="inputbox3" class="column Square {{past_rows[0][2]}}">
+          <input type="number" name="guess3" min="0" max="9" class="input" placeholder="?" />
+        </div>
+        <div id="inputbox4" class="column Square {{past_rows[0][3]}}">
+          <input type="number" name="guess4" min="0" max="9" class="input" placeholder="?" />
+        </div>
       </div>
-{% endfor %}
+    </form>
+  </div>
+</div>
+<input type="button" class="green text-white btn" value="Play" id="play-button">
 
+<!-- Bulls and Cows table -->
+<table id="bulls-cows-table">
+  <thead>
+    <tr>
+      <th>Bulls</th>
+      <th>Cows</th>
+    </tr>
+  </thead>
+  <tbody id="bulls-cows-table-body">
+    <!-- Add rows dynamically as users play -->
+    <tr>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  // Fix 1: Add the missing closing bracket for the event listener
+  document.getElementById("play-button").addEventListener("click", function(event) {
+    event.preventDefault();
+    const gamerow = document.getElementById("gamerow1").cloneNode(true);
+    gamerow.id = "gamerow" + (document.getElementsByClassName("column").length + 1);
+    const inputs = gamerow.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].value = "";
+    }
+    document.getElementById("gamerows").appendChild(gamerow);
+
+    // Add a new row to the table with 0 in both cells
+    const tableBody = document.getElementById("bulls-cows-table-body");
+    const newRow = tableBody.insertRow();
+    const bullCell = newRow.insertCell();
+    const cowCell = newRow.insertCell();
+    bullCell.textContent = "0";
+    cowCell.textContent = "0";
+  });
+
+  // Add an event listener to the form to check the guess
+  const form = document.getElementById("Square");
+  form
+</script>
 
 {% endblock %}

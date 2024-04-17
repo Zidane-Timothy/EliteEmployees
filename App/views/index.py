@@ -85,17 +85,28 @@ from datetime import datetime  # Import datetime here
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
+# def check_guess(secret_number, guess):
+#     result = []
+#     for i, digit in enumerate(guess):
+#         if digit in secret_number:
+#             if digit == secret_number[i]:
+#                 result.append("green")  # Correct digit in correct position
+#             else:
+#                 result.append("yellow")  # Correct digit in wrong position
+#         else:
+#             result.append("black")  # Digit not in secret number
+#     return result
+
 def check_guess(secret_number, guess):
-    result = []
+    bulls = 0  # Initialize Bulls count
+    cows = 0   # Initialize Cows count
     for i, digit in enumerate(guess):
-        if digit in secret_number:
-            if digit == secret_number[i]:
-                result.append("green")  # Correct digit in correct position
-            else:
-                result.append("yellow")  # Correct digit in wrong position
-        else:
-            result.append("black")  # Digit not in secret number
-    return result
+        if digit == secret_number[i]:
+            bulls += 1  # Correct digit in correct position
+        elif digit in secret_number:
+            cows += 1   # Correct digit in wrong position
+    return bulls, cows
+
 
 @index_views.route('/', methods=['GET','POST'])
 def index_page():
