@@ -1,9 +1,10 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, date
 from sqlalchemy.sql.expression import func
 from App.database import db
+from datetime import datetime, time, timedelta
 import random
+
 
 # db = SQLAlchemy()
 
@@ -89,30 +90,36 @@ class UserGame(db.Model):
         self.status = status
 
 class Game(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    sequence = db.Column(db.String(4), nullable=False)
-    last_update = db.Column(db.Date, nullable=False, default=datetime.utcnow().date())  # Changed to store only date
+  id = db.Column(db.Integer, primary_key=True)
+  sequence = db.Column(db.String(4), nullable=False)
+  last_update = db.Column(db.Date, nullable=False, default=datetime.utcnow().date())  # Changed to store only date
 
-    def get_json(self):
-        return {
-            'id': self.id,
-            'sequence': self.sequence,
-            'last_update': self.last_update
-        }
+  def get_json(self):
+      return {
+          'id': self.id,
+          'sequence': self.sequence,
+          'last_update': self.last_update
+      }
 
-    def __init__(self, sequence, last_update):
-        self.sequence = sequence
-        self.last_update = last_update
+  def __init__(self, sequence, last_update):
+      self.sequence = sequence
+      self.last_update = last_update
 
-    @staticmethod
-    def generate_sequence():
-        today = date.today()
-        random.seed(today)  # Seed with current date
-        sequence = ''
-        for _ in range(4):
-            sequence += str(random.randint(0, 9))
-        return sequence
-
+  @staticmethod
+  def generate_sequence():
+      now = datetime.now()
+      if now.time() < time(12, 0):
+          # If the current time is before 12 AM, use yesterday's date
+          today = now.date() - timedelta(days=1)
+      else:
+          # Otherwise, use today's date
+          today = now.date()
+      random.seed(today)  # Seed with current date
+      sequence = set()  # Use a set to ensure unique digits
+      while len(sequence) < 4:
+          sequence.add(random.randint(0, 9))
+      sequence_str = ''.join(str(digit) for digit in sequence)
+      return sequence_str.zfill(4)  # Ensure the sequence has 4 digits
   # def generate_unique_sequence():
   #   digits = list(range(10))  # Create a list of digits from 0 to 9
   #   random.shuffle(digits)    # Shuffle the list randomly
