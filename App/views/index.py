@@ -1,7 +1,11 @@
-from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
-from App.models import db, Game
+from flask import Blueprint, redirect, render_template, request, flash, send_from_directory, jsonify
+from App.models import db, Game,User
 from App.controllers import create_user, update_user, get_all_users, get_all_users_json, get_user_by_username, get_user
 from datetime import datetime  # Import datetime here
+
+from flask_jwt_extended import (
+    current_user
+)
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
@@ -34,6 +38,8 @@ def index_page():
         secret_number = game.sequence  # Get the secret number from the database
         print(secret_number)
         guesses_remaining = 6  # How many guesses are we using?
+        
+        # UserGame.tries = guesses remaining
 
         # Obtain the user's guess from the form inputs
         guess1 = request.form.get('guess1')
@@ -46,12 +52,15 @@ def index_page():
 
         guesses_remaining -= 1
 
+
         # Append the current guess and its result to the list of past rows
         past_rows.append(result)
 
         # Check if the player has won
         if result == ["green", "green", "green", "green"]:
-            return jsonify({"result": "Congratulations! You've won the game!"}) # create a redirect URL
+            flash('Congratulations! You won!')
+            # user = current_user
+            return  render_template('winscreen.html', guess1 = guess1, guess2 = guess2, guess3 = guess3, guess4 = guess4, guesses_remaining=guesses_remaining) # create a redirect URL
 
         # Check if the player has lost
         if guesses_remaining == 0:

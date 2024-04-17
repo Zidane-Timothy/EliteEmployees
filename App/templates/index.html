@@ -24,11 +24,13 @@
 
 </style>
 
+<h3>Guesses Remaining {{guesses_remaining}}</h3>
+
 {% for row in past_rows %} <!--This code needs tweaking to generate accurate row numbers-->
 <div class="column" id="gamerow{{ loop.index }}">
   <form id="Square" class="row" method="POST">
     <div class="flex-container">
-      <div id="inputbox1" class="column Square {{row[0]}}">
+      <div id="inputbox1" class="column Square">
               <input
                 type="number"
                 name="guess1"
@@ -38,7 +40,7 @@
                 placeholder="?"
               />
             </div>
-            <div id="inputbox2" class="column Square {{row[1]}}">
+            <div id="inputbox2" class="column Square">
               <input
                 type="number"
                 name="guess2"
