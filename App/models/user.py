@@ -1,9 +1,15 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
+<<<<<<< HEAD
 from sqlalchemy.sql.expression import func
 from App.database import db
 from datetime import datetime, time, timedelta
 import random
+=======
+from datetime import datetime
+from sqlalchemy.sql.expression import func
+from App.database import db
+>>>>>>> 876c325ebb1548ca7cdc1e108ec99907c8318679
 
 
 # db = SQLAlchemy()
@@ -53,7 +59,7 @@ class User(db.Model):
     def set_password(self, password):
         """Create hashed password."""
         self.password = generate_password_hash(password)
-
+    
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
@@ -69,27 +75,30 @@ class User(db.Model):
 
     def new_game(self, game_id):
         game = UserGame.q.filter_by(user_id=self.id, game_id=game_id).first()
+      
+
 
 class UserGame(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    tries = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String, nullable=False)
+  id = db.Column(db.Integer, primary_key = True)
+  user_id = db.Column(db.Integer,db.ForeignKey('user.id'), nullable = False)
+  tries = db.Column(db.Integer, nullable = False)
+  status = db.Column(db.String, nullable = False)
 
-    def get_json(self):
-        return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'tries': self.tries,
-            'status': self.status
-        }
+  def get_json(self):
+    return {
+      'id': self.id,
+      'user_id': self.user_id,
+      'tries': self.tries,
+      'status': self.status
+    }
 
-    def __init__(self, user_id, tries, status):
-        self.user_id = user_id
-        self.tries = tries
-        self.status = status
+  def __init__(self, user_id, tries, status):
+    self.user_id = user_id
+    self.tries = tries
+    self.status = status
 
 class Game(db.Model):
+<<<<<<< HEAD
   id = db.Column(db.Integer, primary_key=True)
   sequence = db.Column(db.String(4), nullable=False)
   last_update = db.Column(db.Date, nullable=False, default=datetime.utcnow().date())  # Changed to store only date
@@ -126,3 +135,32 @@ class Game(db.Model):
   #   unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
   #   return unique_sequence
 
+=======
+  id = db.Column(db.Integer, primary_key = True)
+  sequence = db.Column(db.String(4), nullable = False)
+  last_update = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+  
+
+  def get_json(self):
+    return {
+      'id': self.id,
+      'sequence': self.sequence,
+      'last_update': self.last_update
+    }
+
+  def __init__(self, sequence, last_update):
+    self.sequence = sequence
+    self.last_update = last_update
+  
+  def generate_sequence():
+    digits = list(range(10))  # Create a list of digits from 0 to 9
+    random.shuffle(digits)    # Shuffle the list randomly
+    unique_sequence = ''.join(map(str, digits[:4]))  # Take the first 4 digits
+    return unique_sequence
+
+  # def generate_sequence():
+  #   sequence = ''
+  #   for i in range(4):
+  #     sequence += str(random.randint(0,9))
+  #   return sequence
+>>>>>>> 876c325ebb1548ca7cdc1e108ec99907c8318679
